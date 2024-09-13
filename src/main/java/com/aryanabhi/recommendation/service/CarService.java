@@ -2,8 +2,11 @@ package com.aryanabhi.recommendation.service;
 
 import com.aryanabhi.recommendation.dto.CarDto;
 
+import java.util.List;
+
 public interface CarService {
 
-    public CarDto getCar(Long id);
-    public CarDto createCar(CarDto carDto);
+    List<CarDto> getAllCars();
+    CarDto getCar(Long id);
+    CarDto createCar(CarDto carDto);
 }

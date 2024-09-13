@@ -35,7 +35,7 @@ public class CarController {
 
 
     /*
-    Car create and fetch endpoints:
+    Car create, delete and fetch endpoints:
      */
     @GetMapping(path="")
     public ResponseEntity<List<CarDto>> fetchAllCard() {
@@ -71,6 +71,20 @@ public class CarController {
         CarDto savedCar = carServiceImpl.createCar(carDto);
         System.out.println("Response from car service: " + savedCar);
         return new ResponseEntity<>(savedCar, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping(path="")
+    public ResponseEntity<String> deleteAllCars() {
+        System.out.println("Received all cars delete request");
+        carServiceImpl.deleteAllCars();
+        return ResponseEntity.ok("Deleted all cars!");
+    }
+
+    @DeleteMapping(path="/{id}")
+    public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
+        System.out.println("Received car delete request for id: " + id);
+        carServiceImpl.deleteCarById(id);
+        return ResponseEntity.ok("Deleted car with id: " + id);
     }
 
 

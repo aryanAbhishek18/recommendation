@@ -42,4 +42,14 @@ public class CarServiceImpl implements CarService {
         System.out.println("saved!");
         return modelMapper.map(savedCar, CarDto.class);
     }
+
+    @Override
+    public void deleteAllCars() {
+        carRepository.deleteAll();
+    }
+
+    @Override
+    public void deleteCarById(Long id) {
+        carRepository.deleteById(id);
+    }
 }

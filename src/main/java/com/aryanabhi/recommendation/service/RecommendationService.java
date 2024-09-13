@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface RecommendationService {
 
-    public List<CarDto> getRecommendations(Long id);
+    List<CarDto> getRecommendations(Long id);
 }

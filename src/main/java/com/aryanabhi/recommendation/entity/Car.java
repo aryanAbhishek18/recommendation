@@ -1,14 +1,19 @@
 package com.aryanabhi.recommendation.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name="car",
         indexes = {@Index(name = "type_index",  columnList="type")})
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Car {
-
-    public Car() {
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,66 +36,4 @@ public class Car {
 
     @Column(name = "year", nullable = false)
     private Integer year;
-
-    public Car(Long id, String name, String type) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
-    public Float getMileage() {
-        return mileage;
-    }
-
-    public void setMileage(Float mileage) {
-        this.mileage = mileage;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
 }

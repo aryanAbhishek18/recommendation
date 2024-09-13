@@ -20,6 +20,18 @@ public class Car {
     @Column(name = "type", nullable = false)
     private String type;
 
+    @Column(name = "company", nullable = false)
+    private String company;
+
+    @Column(name = "capacity", nullable = false)
+    private Integer capacity;
+
+    @Column(name = "mileage", nullable = false)
+    private Float mileage;
+
+    @Column(name = "year", nullable = false)
+    private Integer year;
+
     public Car(Long id, String name, String type) {
         this.id = id;
         this.name = name;
@@ -48,5 +60,37 @@ public class Car {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
+    public Float getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(Float mileage) {
+        this.mileage = mileage;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 }

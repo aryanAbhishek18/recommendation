@@ -29,16 +29,16 @@ public class CarController {
     }
 
     @GetMapping(path="/{id}")
-    public ResponseEntity<String> fetchCarById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
         System.out.println("Received car fetch request for id: " + id);
-        CarDto car = carServiceImpl.getCar(id);
-        System.out.println("Response from car service: " + car.getName());
-        return ResponseEntity.ok(car.getName());
+        CarDto fetchedCar = carServiceImpl.getCar(id);
+        System.out.println("Response from car service: " + fetchedCar.getName());
+        return ResponseEntity.ok(fetchedCar);
     }
 
     @PostMapping(path="/create")
     public ResponseEntity<CarDto> createCar(@RequestBody CarDto carDto) {
-        System.out.println("Received car fetch request for: " + carDto);
+        System.out.println("Received car create request for: " + carDto);
         CarDto savedCar = carServiceImpl.createCar(carDto);
         System.out.println("Response from car service: " + savedCar);
         return new ResponseEntity<>(savedCar, HttpStatus.CREATED);

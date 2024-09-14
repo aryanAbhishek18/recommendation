@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.aryanabhi.recommendation.Constants.CAR_COMPARE_API;
+
 @RestController
-@RequestMapping(path="/api/car/compare")
+@RequestMapping(path=CAR_COMPARE_API)
 public class ComparisonController {
 
     ComparisonService comparisonServiceImpl;

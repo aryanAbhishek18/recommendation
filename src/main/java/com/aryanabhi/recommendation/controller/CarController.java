@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.aryanabhi.recommendation.Constants.CAR_API;
+import static com.aryanabhi.recommendation.Constants.HEALTH_CHECK_API;
+
 @RestController
-@RequestMapping(path="/api/car")
+@RequestMapping(path=CAR_API)
 public class CarController {
 
     CarService carServiceImpl;
@@ -24,7 +27,7 @@ public class CarController {
      * Custom health check endpoint:
      * NOTE - see if inbuilt health check exists
      */
-    @GetMapping(path="/health")
+    @GetMapping(path=HEALTH_CHECK_API)
     public ResponseEntity<String> checkHealth() {
         System.out.println("Received health check request:))");
         return ResponseEntity.ok("Up and running!");
@@ -62,7 +65,7 @@ public class CarController {
         }
     }
 
-    @PostMapping(path="/create")
+    @PostMapping(path="")
     public ResponseEntity<CarDto> createCar(@RequestBody CarDto carDto) {
         System.out.println("Received car create request for: " + carDto);
         CarDto savedCar = carServiceImpl.createCar(carDto);

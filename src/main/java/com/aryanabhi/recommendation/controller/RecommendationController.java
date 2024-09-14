@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static com.aryanabhi.recommendation.Constants.CAR_RECOMMEND_API;
+
 @RestController
-@RequestMapping(path="/api/car/recommend")
+@RequestMapping(path=CAR_RECOMMEND_API)
 public class RecommendationController {
 
     RecommendationService recommendationServiceImpl;

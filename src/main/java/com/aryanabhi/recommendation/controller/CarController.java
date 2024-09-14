@@ -1,11 +1,7 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
-import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
-import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
-import com.aryanabhi.recommendation.service.CarServiceImpl;
-import com.aryanabhi.recommendation.service.ComparisonServiceImpl;
-import com.aryanabhi.recommendation.service.RecommendationServiceImpl;
+import com.aryanabhi.recommendation.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +13,11 @@ import java.util.List;
 @RequestMapping(path="/api/car")
 public class CarController {
 
-    CarServiceImpl carServiceImpl;
-    RecommendationServiceImpl recommendationServiceImpl;
-    ComparisonServiceImpl comparisonServiceImpl;
+    CarService carServiceImpl;
 
     @Autowired
-    public CarController(CarServiceImpl carServiceImpl, RecommendationServiceImpl recommendationServiceImpl, ComparisonServiceImpl comparisonServiceImpl) {
+    public CarController(CarService carServiceImpl) {
         this.carServiceImpl = carServiceImpl;
-        this.recommendationServiceImpl = recommendationServiceImpl;
-        this.comparisonServiceImpl = comparisonServiceImpl;
     }
 
     /**
@@ -90,35 +82,5 @@ public class CarController {
         System.out.println("Received car delete request for id: " + id);
         carServiceImpl.deleteCarById(id);
         return ResponseEntity.ok("Deleted car with id: " + id);
-    }
-
-
-    /**
-     * Recommendation endpoints
-     */
-    @GetMapping(path="/recommend/{id}")
-    public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id) {
-        System.out.println("Received car recommendations request for id: " + id);
-        try {
-            List<CarDto> recommendedCars = recommendationServiceImpl.getRecommendations(id);
-            System.out.println("Recommendations fetched: " + recommendedCars.size());
-            return ResponseEntity.ok(recommendedCars);
-        }
-        catch (Exception e) {
-            System.out.println("No recommendations found for the id: " + id);
-            return null;
-        }
-    }
-
-
-    /**
-     * Comparison endpoints:
-     */
-    @GetMapping(path="/compare")
-    public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
-        System.out.println("Received car compare request for: " + req.getIds());
-        ComparisonResponseDto comparison = comparisonServiceImpl.compareCars(req);
-        System.out.println("Recommendations fetched: " + comparison);
-        return new ResponseEntity<>(comparison, HttpStatus.OK);
     }
 }

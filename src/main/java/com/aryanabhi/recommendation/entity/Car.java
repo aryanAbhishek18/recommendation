@@ -28,12 +28,24 @@ public class Car {
     @Column(name = "company", nullable = false)
     private String company;
 
-    @Column(name = "capacity", nullable = false)
-    private Integer capacity;
-
-    @Column(name = "mileage", nullable = false)
-    private Float mileage;
-
     @Column(name = "year", nullable = false)
     private Integer year;
+
+    @Column(name = "seating", nullable = false)
+    private Integer seating;
+
+    @Column(name = "automatic_available", nullable = false)
+    private Boolean automaticAvailable;
+
+    @Column(name = "horsepower", nullable = false)
+    private Double horsepower;
+
+    @Column(name = "mileage", nullable = false)
+    private Double mileage;
+
+    @Column(name = "price", nullable = false)
+    private Double price;
+
+    @Column(name = "score", nullable = false)
+    private Double score;
 }

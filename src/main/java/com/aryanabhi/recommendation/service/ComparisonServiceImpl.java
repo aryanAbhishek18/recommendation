@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ComparisonServiceImpl implements ComparisonService {
@@ -28,31 +29,57 @@ public class ComparisonServiceImpl implements ComparisonService {
         List<String> names = new ArrayList<>();
         List<String> types = new ArrayList<>();
         List<String> companies = new ArrayList<>();
-        List<Integer> capacities = new ArrayList<>();
-        List<Float> mileages = new ArrayList<>();
         List<Integer> years = new ArrayList<>();
+        List<Integer> seatings = new ArrayList<>();
+        List<Boolean> automaticAvailability = new ArrayList<>();
+        List<Double> horsepowers = new ArrayList<>();
+        List<Double> mileages = new ArrayList<>();
+        List<Double> prices = new ArrayList<>();
+        List<Double> scores = new ArrayList<>();
 
-        HashSet<String> uniqueTypes = new HashSet<>();
-        HashSet<String> uniqueCompanies = new HashSet<>();
-        HashSet<Integer> uniqueCapacities = new HashSet<>();
-        HashSet<Float> uniqueMileages = new HashSet<>();
-        HashSet<Integer> uniqueYears = new HashSet<>();
+        Set<String> uniqueTypes = new HashSet<>();
+        Set<String> uniqueCompanies = new HashSet<>();
+        Set<Integer> uniqueYears = new HashSet<>();
+        Set<Integer> uniqueSeatings = new HashSet<>();
+        Set<Boolean> uniqueAutomaticAvailability = new HashSet<>();
+        Set<Double> uniqueHorsepowers = new HashSet<>();
+        Set<Double> uniqueMileages = new HashSet<>();
+        Set<Double> uniquePrices = new HashSet<>();
+        Set<Double> uniqueScores = new HashSet<>();
+
 
         for(Long id: comparisonRequestDto.getIds()) {
             Car c = carRepository.getReferenceById(id);
             if(c != null) carsToBeCompared.add(c);
 
             names.add(c.getName());
+
             types.add(c.getType());
             uniqueTypes.add(c.getType());
+
             companies.add(c.getCompany());
             uniqueCompanies.add(c.getCompany());
-            capacities.add(c.getCapacity());
-            uniqueCapacities.add(c.getCapacity());
-            mileages.add((c.getMileage()));
-            uniqueMileages.add(c.getMileage());
+
             years.add(c.getYear());
             uniqueYears.add(c.getYear());
+
+            seatings.add(c.getSeating());
+            uniqueSeatings.add(c.getSeating());
+
+            automaticAvailability.add(c.getAutomaticAvailable());
+            uniqueAutomaticAvailability.add(c.getAutomaticAvailable());
+
+            horsepowers.add(c.getHorsepower());
+            uniqueHorsepowers.add(c.getHorsepower());
+
+            mileages.add((c.getMileage()));
+            uniqueMileages.add(c.getMileage());
+
+            prices.add(c.getPrice());
+            uniquePrices.add(c.getPrice());
+
+            scores.add((c.getScore()));
+            uniqueScores.add(c.getScore());
         }
 
         if(comparisonRequestDto.getHideSimilarities() != null && comparisonRequestDto.getHideSimilarities()) {
@@ -61,9 +88,13 @@ public class ComparisonServiceImpl implements ComparisonService {
                     .names(names)
                     .types(uniqueTypes.size() == 1 ? null : types)
                     .companies(uniqueCompanies.size() == 1 ? null : companies)
-                    .capacities(uniqueCapacities.size() == 1 ? null : capacities)
-                    .mileages(uniqueMileages.size() == 1 ? null : mileages)
                     .years(uniqueYears.size() == 1 ? null : years)
+                    .seatings(uniqueSeatings.size() == 1 ? null : seatings)
+                    .automaticAvailibility(uniqueAutomaticAvailability.size() == 1 ? null : automaticAvailability)
+                    .horsepowers(uniqueHorsepowers.size() == 1 ? null : horsepowers)
+                    .mileages(uniqueMileages.size() == 1 ? null : mileages)
+                    .prices(uniquePrices.size() == 1 ? null : prices)
+                    .scores(uniqueScores.size() == 1 ? null : scores)
                     .build();
         }
 
@@ -72,9 +103,13 @@ public class ComparisonServiceImpl implements ComparisonService {
                 .names(names)
                 .types(uniqueTypes.size() == 1 ? uniqueTypes.stream().toList() : types)
                 .companies(uniqueCompanies.size() == 1 ? uniqueCompanies.stream().toList() : companies)
-                .capacities(uniqueCapacities.size() == 1 ? uniqueCapacities.stream().toList() : capacities)
-                .mileages(uniqueMileages.size() == 1 ? uniqueMileages.stream().toList() : mileages)
                 .years(uniqueYears.size() == 1 ? uniqueYears.stream().toList() : years)
+                .seatings(uniqueSeatings.size() == 1 ? uniqueSeatings.stream().toList() : seatings)
+                .automaticAvailibility(uniqueAutomaticAvailability.size() == 1 ? uniqueAutomaticAvailability.stream().toList() : automaticAvailability)
+                .horsepowers(uniqueHorsepowers.size() == 1 ? uniqueHorsepowers.stream().toList() : horsepowers)
+                .mileages(uniqueMileages.size() == 1 ? uniqueMileages.stream().toList() : mileages)
+                .prices(uniquePrices.size() == 1 ? uniquePrices.stream().toList() : prices)
+                .scores(uniqueScores.size() == 1 ? uniqueScores.stream().toList() : scores)
                 .build();
     }
 }

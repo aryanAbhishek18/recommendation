@@ -18,7 +18,11 @@ public class ComparisonResponseDto {
     List<String> names;
     List<String> types;
     List<String> companies;
-    List<Integer> capacities;
-    List<Float> mileages;
     List<Integer> years;
+    List<Integer> seatings;
+    List<Boolean> automaticAvailibility;
+    List<Double> horsepowers;
+    List<Double> mileages;
+    List<Double> prices;
+    List<Double> scores;
 }

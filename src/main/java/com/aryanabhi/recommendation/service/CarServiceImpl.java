@@ -35,9 +35,9 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto createCar(CarDto carDto) {
-        // carDto.setScore() = func()
-
+        Double carScore = calculateScore(carDto);
         Car car = modelMapper.map(carDto, Car.class);
+        car.setScore(carScore);
         Car savedCar = carRepository.save(car);
         System.out.println("saved!");
         return modelMapper.map(savedCar, CarDto.class);
@@ -51,5 +51,10 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCarById(Long id) {
         carRepository.deleteById(id);
+    }
+
+    private Double calculateScore(CarDto carDto) {
+        // write the actual algorithm to calculate score
+        return 1.0;
     }
 }

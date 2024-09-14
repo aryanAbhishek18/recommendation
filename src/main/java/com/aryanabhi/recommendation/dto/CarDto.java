@@ -14,7 +14,11 @@ public class CarDto {
     private String name;
     private String type;
     private String company;
-    private Integer capacity;
-    private Float mileage;
     private Integer year;
+    private Integer seating;
+    private Boolean automaticAvailable;
+    private Double horsepower;
+    private Double mileage;
+    private Double price;
+    private Double score;
 }

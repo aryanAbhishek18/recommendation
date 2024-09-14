@@ -28,12 +28,21 @@ public class Car {
     @Column(name = "company", nullable = false)
     private String company;
 
-    @Column(name = "capacity", nullable = false)
-    private Integer capacity;
+    @Column(name = "seats", nullable = false)
+    private Integer seats;
+
+    @Column(name = "horsepower", nullable = false)
+    private Double horsepower;
+
+    @Column(name = "is_automatic", nullable = false)
+    private Boolean isAutomatic;
 
     @Column(name = "mileage", nullable = false)
-    private Float mileage;
+    private Double mileage;
 
     @Column(name = "year", nullable = false)
     private Integer year;
+
+    @Column(name = "score", nullable = false)
+    private Double score;
 }

@@ -1,8 +1,9 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
-import com.aryanabhi.recommendation.service.CarServiceImpl;
+import com.aryanabhi.recommendation.service.CarService;
 import com.aryanabhi.recommendation.service.RecommendationServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,38 +11,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.aryanabhi.recommendation.Constants.*;
+
 @RestController
-@RequestMapping(path="/api/car")
+@AllArgsConstructor
+@RequestMapping(path=CAR_API)
 public class CarController {
 
-    RecommendationServiceImpl recommendationServiceImpl;
-    CarServiceImpl carServiceImpl;
+    private RecommendationServiceImpl recommendationServiceImpl;
+    private CarService carService;
 
-    @Autowired
-    public CarController(RecommendationServiceImpl recommendationServiceImpl, CarServiceImpl carServiceImpl) {
-        this.recommendationServiceImpl = recommendationServiceImpl;
-        this.carServiceImpl = carServiceImpl;
-    }
-
-    /*
-    Custom health check endpoint
-    NOTE - see if inbuilt health check exists
+    /**
+     * Custom health check endpoint
+     * NOTE - see if inbuilt health check exists
      */
-    @GetMapping(path="/health")
+    @GetMapping(path=HEALTH_API)
     public ResponseEntity<String> checkHealth() {
         System.out.println("Received health check request:))");
         return ResponseEntity.ok("Up and running!");
     }
 
 
-    /*
-    Car create, delete and fetch endpoints:
+    /**
+     * Car create, delete and fetch endpoints:
      */
-    @GetMapping(path="")
-    public ResponseEntity<List<CarDto>> fetchAllCard() {
+    @GetMapping(path=GET_ALL_CARS_API)
+    public ResponseEntity<List<CarDto>> fetchAllCars() {
         System.out.println("Received all cars fetch request");
         try {
-            List<CarDto> allCars = carServiceImpl.getAllCars();
+            List<CarDto> allCars = carService.getAllCars();
             System.out.println("Total cars fetched: " + allCars.size());
             return ResponseEntity.ok(allCars);
         }
@@ -55,7 +53,7 @@ public class CarController {
     public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
         System.out.println("Received car fetch request for id: " + id);
         try {
-            CarDto fetchedCar = carServiceImpl.getCar(id);
+            CarDto fetchedCar = carService.getCar(id);
             System.out.println("Response from car service: " + fetchedCar.getName());
             return ResponseEntity.ok(fetchedCar);
         }
@@ -65,33 +63,33 @@ public class CarController {
         }
     }
 
-    @PostMapping(path="/create")
+    @PostMapping(path=CREATE_CAR_API)
     public ResponseEntity<CarDto> createCar(@RequestBody CarDto carDto) {
         System.out.println("Received car create request for: " + carDto);
-        CarDto savedCar = carServiceImpl.createCar(carDto);
+        CarDto savedCar = carService.createCar(carDto);
         System.out.println("Response from car service: " + savedCar);
         return new ResponseEntity<>(savedCar, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path="")
+    @DeleteMapping(path= DELETE_ALL_CARS_API)
     public ResponseEntity<String> deleteAllCars() {
         System.out.println("Received all cars delete request");
-        carServiceImpl.deleteAllCars();
+        carService.deleteAllCars();
         return ResponseEntity.ok("Deleted all cars!");
     }
 
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping(path=DELETE_CAR_API)
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
         System.out.println("Received car delete request for id: " + id);
-        carServiceImpl.deleteCarById(id);
+        carService.deleteCarById(id);
         return ResponseEntity.ok("Deleted car with id: " + id);
     }
 
 
-    /*
-    Recommendation endpoints
+    /**
+     * Recommendation endpoints
      */
-    @GetMapping(path="/recommend/{id}")
+    @GetMapping(path=RECOMMEND_API)
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id) {
         System.out.println("Received car recommendations request for id: " + id);
         try {

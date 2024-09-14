@@ -5,19 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class CarDto {
+public class WeightDto {
     private Long id;
-    private String name;
     private String type;
-    private String company;
-    private Integer seats;
-    private Double horsepower;
-    private Boolean isAutomatic;
+    private Double capacity;
     private Double mileage;
-    private Integer year;
-    private Double score;
+    private Double horsepower;
+    private Double isAutomatic;
 }

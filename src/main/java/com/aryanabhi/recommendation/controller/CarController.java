@@ -1,7 +1,8 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
-import com.aryanabhi.recommendation.dto.ComparisonDto;
+import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
+import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.service.CarServiceImpl;
 import com.aryanabhi.recommendation.service.ComparisonServiceImpl;
 import com.aryanabhi.recommendation.service.RecommendationServiceImpl;
@@ -42,7 +43,7 @@ public class CarController {
      * Car create, delete and fetch endpoints:
      */
     @GetMapping(path="")
-    public ResponseEntity<List<CarDto>> fetchAllCard() {
+    public ResponseEntity<List<CarDto>> fetchAllCars() {
         System.out.println("Received all cars fetch request");
         try {
             List<CarDto> allCars = carServiceImpl.getAllCars();
@@ -114,9 +115,9 @@ public class CarController {
      * Comparison endpoints:
      */
     @GetMapping(path="/compare")
-    public ResponseEntity<ComparisonDto> compareCars(@RequestBody List<Long> ids) {
-        System.out.println("Received car compare request for: " + ids);
-        ComparisonDto comparison = comparisonServiceImpl.compareCars(ids);
+    public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
+        System.out.println("Received car compare request for: " + req.getIds());
+        ComparisonResponseDto comparison = comparisonServiceImpl.compareCars(req);
         System.out.println("Recommendations fetched: " + comparison);
         return new ResponseEntity<>(comparison, HttpStatus.OK);
     }

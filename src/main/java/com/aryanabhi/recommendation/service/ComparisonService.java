@@ -1,9 +1,8 @@
 package com.aryanabhi.recommendation.service;
 
-import com.aryanabhi.recommendation.dto.ComparisonDto;
-
-import java.util.List;
+import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
+import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 
 public interface ComparisonService {
-    ComparisonDto compareCars(List<Long> ids);
+    ComparisonResponseDto compareCars(ComparisonRequestDto comparisonRequestDto);
 }

@@ -1,6 +1,7 @@
 package com.aryanabhi.recommendation.service;
 
-import com.aryanabhi.recommendation.dto.ComparisonDto;
+import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
+import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.entity.Car;
 import com.aryanabhi.recommendation.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ComparisonServiceImpl implements ComparisonService {
     }
 
     @Override
-    public ComparisonDto compareCars(List<Long> ids) {
+    public ComparisonResponseDto compareCars(ComparisonRequestDto comparisonRequestDto) {
         List<Car> carsToBeCompared = new ArrayList<>();
 
         List<String> names = new ArrayList<>();
@@ -31,14 +32,13 @@ public class ComparisonServiceImpl implements ComparisonService {
         List<Float> mileages = new ArrayList<>();
         List<Integer> years = new ArrayList<>();
 
-
         HashSet<String> uniqueTypes = new HashSet<>();
         HashSet<String> uniqueCompanies = new HashSet<>();
         HashSet<Integer> uniqueCapacities = new HashSet<>();
         HashSet<Float> uniqueMileages = new HashSet<>();
         HashSet<Integer> uniqueYears = new HashSet<>();
 
-        for(Long id: ids) {
+        for(Long id: comparisonRequestDto.getIds()) {
             Car c = carRepository.getReferenceById(id);
             if(c != null) carsToBeCompared.add(c);
 
@@ -55,8 +55,20 @@ public class ComparisonServiceImpl implements ComparisonService {
             uniqueYears.add(c.getYear());
         }
 
-        return ComparisonDto.builder()
-                .ids(ids)
+        if(comparisonRequestDto.getHideSimilarities() != null && comparisonRequestDto.getHideSimilarities()) {
+            return ComparisonResponseDto.builder()
+                    .ids(comparisonRequestDto.getIds())
+                    .names(names)
+                    .types(uniqueTypes.size() == 1 ? null : types)
+                    .companies(uniqueCompanies.size() == 1 ? null : companies)
+                    .capacities(uniqueCapacities.size() == 1 ? null : capacities)
+                    .mileages(uniqueMileages.size() == 1 ? null : mileages)
+                    .years(uniqueYears.size() == 1 ? null : years)
+                    .build();
+        }
+
+        return ComparisonResponseDto.builder()
+                .ids(comparisonRequestDto.getIds())
                 .names(names)
                 .types(uniqueTypes.size() == 1 ? uniqueTypes.stream().toList() : types)
                 .companies(uniqueCompanies.size() == 1 ? uniqueCompanies.stream().toList() : companies)

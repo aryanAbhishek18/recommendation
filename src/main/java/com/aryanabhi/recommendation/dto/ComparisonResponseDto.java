@@ -13,7 +13,7 @@ import lombok.Builder;
 @Getter
 @Setter
 @Builder
-public class ComparisonDto {
+public class ComparisonResponseDto {
     List<Long> ids;
     List<String> names;
     List<String> types;

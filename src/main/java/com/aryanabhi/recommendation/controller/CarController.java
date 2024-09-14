@@ -1,7 +1,9 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
+import com.aryanabhi.recommendation.dto.ComparisonDto;
 import com.aryanabhi.recommendation.service.CarServiceImpl;
+import com.aryanabhi.recommendation.service.ComparisonServiceImpl;
 import com.aryanabhi.recommendation.service.RecommendationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,18 +16,20 @@ import java.util.List;
 @RequestMapping(path="/api/car")
 public class CarController {
 
-    RecommendationServiceImpl recommendationServiceImpl;
     CarServiceImpl carServiceImpl;
+    RecommendationServiceImpl recommendationServiceImpl;
+    ComparisonServiceImpl comparisonServiceImpl;
 
     @Autowired
-    public CarController(RecommendationServiceImpl recommendationServiceImpl, CarServiceImpl carServiceImpl) {
-        this.recommendationServiceImpl = recommendationServiceImpl;
+    public CarController(CarServiceImpl carServiceImpl, RecommendationServiceImpl recommendationServiceImpl, ComparisonServiceImpl comparisonServiceImpl) {
         this.carServiceImpl = carServiceImpl;
+        this.recommendationServiceImpl = recommendationServiceImpl;
+        this.comparisonServiceImpl = comparisonServiceImpl;
     }
 
-    /*
-    Custom health check endpoint
-    NOTE - see if inbuilt health check exists
+    /**
+     * Custom health check endpoint:
+     * NOTE - see if inbuilt health check exists
      */
     @GetMapping(path="/health")
     public ResponseEntity<String> checkHealth() {
@@ -34,8 +38,8 @@ public class CarController {
     }
 
 
-    /*
-    Car create, delete and fetch endpoints:
+    /**
+     * Car create, delete and fetch endpoints:
      */
     @GetMapping(path="")
     public ResponseEntity<List<CarDto>> fetchAllCard() {
@@ -88,8 +92,8 @@ public class CarController {
     }
 
 
-    /*
-    Recommendation endpoints
+    /**
+     * Recommendation endpoints
      */
     @GetMapping(path="/recommend/{id}")
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id) {
@@ -103,5 +107,17 @@ public class CarController {
             System.out.println("No recommendations found for the id: " + id);
             return null;
         }
+    }
+
+
+    /**
+     * Comparison endpoints:
+     */
+    @GetMapping(path="/compare")
+    public ResponseEntity<ComparisonDto> compareCars(@RequestBody List<Long> ids) {
+        System.out.println("Received car compare request for: " + ids);
+        ComparisonDto comparison = comparisonServiceImpl.compareCars(ids);
+        System.out.println("Recommendations fetched: " + comparison);
+        return new ResponseEntity<>(comparison, HttpStatus.OK);
     }
 }

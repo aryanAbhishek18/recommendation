@@ -15,11 +15,11 @@ import static com.aryanabhi.recommendation.Constants.CAR_RANK_WEIGHT_API;
 @RequestMapping(path=CAR_RANK_WEIGHT_API)
 public class WeightController {
 
-    WeightService weightServiceImpl;
+    WeightService weightService;
 
     @Autowired
-    WeightController(WeightService weightServiceImpl) {
-        this.weightServiceImpl = weightServiceImpl;
+    WeightController(WeightService weightService) {
+        this.weightService = weightService;
     }
 
     /**
@@ -27,26 +27,26 @@ public class WeightController {
      */
     @PostMapping(path = "")
     ResponseEntity<List<WeightDto>> addWeights(@RequestBody List<WeightDto> weightDtos) {
-        List<WeightDto> fetchedWeights =  weightServiceImpl.createRankWeights(weightDtos);
+        List<WeightDto> fetchedWeights =  weightService.createRankWeights(weightDtos);
         if(fetchedWeights == null) return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
         return new ResponseEntity<>(fetchedWeights, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "")
     ResponseEntity<List<WeightDto>> getWeights() {
-        List<WeightDto> fetchedWeights = weightServiceImpl.getRankWeights();
+        List<WeightDto> fetchedWeights = weightService.getRankWeights();
         return new ResponseEntity<>(fetchedWeights, HttpStatus.OK);
     }
 
     @GetMapping(path = "/{type}")
     ResponseEntity<WeightDto> getWeightByType(@PathVariable String type) {
-        WeightDto fetchedWeight = weightServiceImpl.getRankWeightByType(type);
+        WeightDto fetchedWeight = weightService.getRankWeightByType(type);
         return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "")
     ResponseEntity<String> deleteWeights() {
-        weightServiceImpl.deleteRankWeights();
+        weightService.deleteRankWeights();
         return ResponseEntity.ok("Deleted all weight records!");
     }
 }

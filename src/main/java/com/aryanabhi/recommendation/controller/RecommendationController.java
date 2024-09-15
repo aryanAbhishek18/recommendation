@@ -17,11 +17,11 @@ import static com.aryanabhi.recommendation.Constants.CAR_RECOMMEND_API;
 @RequestMapping(path=CAR_RECOMMEND_API)
 public class RecommendationController {
 
-    RecommendationService recommendationServiceImpl;
+    RecommendationService recommendationService;
 
     @Autowired
-    public RecommendationController(RecommendationService recommendationServiceImpl) {
-        this.recommendationServiceImpl = recommendationServiceImpl;
+    public RecommendationController(RecommendationService recommendationService) {
+        this.recommendationService = recommendationService;
     }
 
     /**
@@ -31,7 +31,7 @@ public class RecommendationController {
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id) {
         System.out.println("Received car recommendations request for id: " + id);
         try {
-            List<CarDto> recommendedCars = recommendationServiceImpl.getRecommendations(id);
+            List<CarDto> recommendedCars = recommendationService.getRecommendations(id);
             System.out.println("Recommendations fetched: " + recommendedCars.size());
             return ResponseEntity.ok(recommendedCars);
         }

@@ -17,11 +17,11 @@ import static com.aryanabhi.recommendation.Constants.CAR_COMPARE_API;
 @RequestMapping(path=CAR_COMPARE_API)
 public class ComparisonController {
 
-    ComparisonService comparisonServiceImpl;
+    ComparisonService comparisonService;
 
     @Autowired
-    public ComparisonController(ComparisonService comparisonServiceImpl) {
-        this.comparisonServiceImpl = comparisonServiceImpl;
+    public ComparisonController(ComparisonService comparisonService) {
+        this.comparisonService = comparisonService;
     }
 
     /**
@@ -30,7 +30,7 @@ public class ComparisonController {
     @GetMapping(path="")
     public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
         System.out.println("Received car compare request for: " + req.getIds());
-        ComparisonResponseDto comparison = comparisonServiceImpl.compareCars(req);
+        ComparisonResponseDto comparison = comparisonService.compareCars(req);
         System.out.println("Recommendations fetched: " + comparison);
         return new ResponseEntity<>(comparison, HttpStatus.OK);
     }

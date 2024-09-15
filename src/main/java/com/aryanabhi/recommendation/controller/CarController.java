@@ -16,11 +16,11 @@ import static com.aryanabhi.recommendation.Constants.HEALTH_CHECK_API;
 @RequestMapping(path=CAR_API)
 public class CarController {
 
-    CarService carServiceImpl;
+    CarService carService;
 
     @Autowired
-    public CarController(CarService carServiceImpl) {
-        this.carServiceImpl = carServiceImpl;
+    public CarController(CarService carService) {
+        this.carService = carService;
     }
 
     /**
@@ -41,7 +41,7 @@ public class CarController {
     public ResponseEntity<List<CarDto>> fetchAllCars() {
         System.out.println("Received all cars fetch request");
         try {
-            List<CarDto> allCars = carServiceImpl.getAllCars();
+            List<CarDto> allCars = carService.getAllCars();
             System.out.println("Total cars fetched: " + allCars.size());
             return ResponseEntity.ok(allCars);
         }
@@ -55,7 +55,7 @@ public class CarController {
     public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
         System.out.println("Received car fetch request for id: " + id);
         try {
-            CarDto fetchedCar = carServiceImpl.getCar(id);
+            CarDto fetchedCar = carService.getCar(id);
             System.out.println("Response from car service: " + fetchedCar.getName());
             return ResponseEntity.ok(fetchedCar);
         }
@@ -67,21 +67,21 @@ public class CarController {
 
     @PostMapping(path="")
     public ResponseEntity<List<CarDto>> createCars(@RequestBody List<CarDto> carDtoList) {
-        List<CarDto> savedCars = carServiceImpl.createCars(carDtoList);
+        List<CarDto> savedCars = carService.createCars(carDtoList);
         return new ResponseEntity<>(savedCars, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path="")
     public ResponseEntity<String> deleteAllCars() {
         System.out.println("Received all cars delete request");
-        carServiceImpl.deleteAllCars();
+        carService.deleteAllCars();
         return ResponseEntity.ok("Deleted all cars!");
     }
 
     @DeleteMapping(path="/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
         System.out.println("Received car delete request for id: " + id);
-        carServiceImpl.deleteCarById(id);
+        carService.deleteCarById(id);
         return ResponseEntity.ok("Deleted car with id: " + id);
     }
 }

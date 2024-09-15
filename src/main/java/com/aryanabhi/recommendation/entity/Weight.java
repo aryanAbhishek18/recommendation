@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="weight")
+@Table(name="weight", indexes = {@Index(name = "type_weight_index",  columnList="type")})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -38,6 +38,12 @@ public class WeightController {
         return new ResponseEntity<>(fetchedWeights, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/{type}")
+    ResponseEntity<WeightDto> getWeightByType(@PathVariable String type) {
+        WeightDto fetchedWeight = weightServiceImpl.getRankWeightByType(type);
+        return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
+    }
+
     @DeleteMapping(path = "")
     ResponseEntity<String> deleteWeights() {
         weightServiceImpl.deleteRankWeights();

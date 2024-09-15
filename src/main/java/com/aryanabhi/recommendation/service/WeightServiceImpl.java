@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class WeightServiceImpl implements WeightService {
@@ -54,6 +55,13 @@ public class WeightServiceImpl implements WeightService {
             weightDtoList.add(modelMapper.map(w, WeightDto.class));
         }
         return weightDtoList;
+    }
+
+    @Override
+    public WeightDto getRankWeightByType(String type) {
+        Optional<Weight> weight = weightRepository.findOneByType(type);
+        if(weight.isEmpty()) return null;
+        return modelMapper.map(weight.get(), WeightDto.class);
     }
 
     @Override

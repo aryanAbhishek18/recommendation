@@ -8,5 +8,6 @@ public interface WeightService {
 
     List<WeightDto> createRankWeights(List<WeightDto> weightDtoList);
     List<WeightDto> getRankWeights();
+    WeightDto getRankWeightByType(String type);
     void deleteRankWeights();
 }

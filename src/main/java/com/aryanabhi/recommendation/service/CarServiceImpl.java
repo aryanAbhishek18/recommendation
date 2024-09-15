@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,13 +35,16 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarDto createCar(CarDto carDto) {
-        Double carScore = calculateScore(carDto);
-        Car car = modelMapper.map(carDto, Car.class);
-        car.setScore(carScore);
-        Car savedCar = carRepository.save(car);
-        System.out.println("saved!");
-        return modelMapper.map(savedCar, CarDto.class);
+    public List<CarDto> createCars(List<CarDto> carDtoList) {
+        List<CarDto> savedCars = new ArrayList<>();
+        for(CarDto carDto: carDtoList) {
+            Double carScore = calculateScore(carDto);
+            Car car = modelMapper.map(carDto, Car.class);
+            car.setScore(carScore);
+            Car savedCar = carRepository.save(car);
+            savedCars.add(modelMapper.map(savedCar, CarDto.class));
+        }
+        return savedCars;
     }
 
     @Override

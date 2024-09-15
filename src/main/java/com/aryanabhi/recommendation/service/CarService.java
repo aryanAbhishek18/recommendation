@@ -8,7 +8,7 @@ public interface CarService {
 
     List<CarDto> getAllCars();
     CarDto getCar(Long id);
-    CarDto createCar(CarDto carDto);
+    List<CarDto> createCars(List<CarDto> carDtoList);
     void deleteAllCars();
     void deleteCarById(Long id);
 }

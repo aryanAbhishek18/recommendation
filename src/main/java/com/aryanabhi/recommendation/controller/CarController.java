@@ -66,11 +66,9 @@ public class CarController {
     }
 
     @PostMapping(path="")
-    public ResponseEntity<CarDto> createCar(@RequestBody CarDto carDto) {
-        System.out.println("Received car create request for: " + carDto);
-        CarDto savedCar = carServiceImpl.createCar(carDto);
-        System.out.println("Response from car service: " + savedCar);
-        return new ResponseEntity<>(savedCar, HttpStatus.CREATED);
+    public ResponseEntity<List<CarDto>> createCars(@RequestBody List<CarDto> carDtoList) {
+        List<CarDto> savedCars = carServiceImpl.createCars(carDtoList);
+        return new ResponseEntity<>(savedCars, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path="")

@@ -2,6 +2,7 @@ package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.service.CarService;
+import com.aryanabhi.recommendation.service.WeightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,12 @@ import static com.aryanabhi.recommendation.Constants.HEALTH_CHECK_API;
 public class CarController {
 
     CarService carService;
+    WeightService weightService;
 
     @Autowired
-    public CarController(CarService carService) {
+    public CarController(CarService carService, WeightService weightService) {
         this.carService = carService;
+        this.weightService = weightService;
     }
 
     /**
@@ -67,7 +70,7 @@ public class CarController {
 
     @PostMapping(path="")
     public ResponseEntity<List<CarDto>> createCars(@RequestBody List<CarDto> carDtoList) {
-        List<CarDto> savedCars = carService.createCars(carDtoList);
+        List<CarDto> savedCars = carService.createCars(carDtoList, weightService.getRankWeights());
         return new ResponseEntity<>(savedCars, HttpStatus.CREATED);
     }
 

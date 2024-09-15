@@ -9,7 +9,7 @@ public class Constants {
     public static final String CAR_API = "/api/car";
     public static final String CAR_COMPARE_API = "/api/car/compare";
     public static final String CAR_RECOMMEND_API = "/api/car/recommend";
-
+    public static final String CAR_RANK_WEIGHT_API = "/api/car/weigh";
 
     /**
      * PAGINATION:

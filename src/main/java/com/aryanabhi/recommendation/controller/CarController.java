@@ -3,6 +3,7 @@ package com.aryanabhi.recommendation.controller;
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.service.CarService;
 import com.aryanabhi.recommendation.service.WeightService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.util.List;
 import static com.aryanabhi.recommendation.Constants.CAR_API;
 import static com.aryanabhi.recommendation.Constants.HEALTH_CHECK_API;
 
+@Log4j2
 @RestController
 @RequestMapping(path=CAR_API)
 public class CarController {
@@ -32,7 +34,6 @@ public class CarController {
      */
     @GetMapping(path=HEALTH_CHECK_API)
     public ResponseEntity<String> checkHealth() {
-        System.out.println("Received health check request:))");
         return ResponseEntity.ok("Up and running!");
     }
 
@@ -42,48 +43,45 @@ public class CarController {
      */
     @GetMapping(path="")
     public ResponseEntity<List<CarDto>> fetchAllCars() {
-        System.out.println("Received all cars fetch request");
+        log.debug("Request to fetch all cars");
         try {
             List<CarDto> allCars = carService.getAllCars();
-            System.out.println("Total cars fetched: " + allCars.size());
             return ResponseEntity.ok(allCars);
         }
         catch (Exception e) {
-            System.out.println("No cars found");
             return null;
         }
     }
 
     @GetMapping(path="/{id}")
     public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
-        System.out.println("Received car fetch request for id: " + id);
+        log.debug("Request to fetch car with id: {}", id);
         try {
             CarDto fetchedCar = carService.getCar(id);
-            System.out.println("Response from car service: " + fetchedCar.getName());
             return ResponseEntity.ok(fetchedCar);
         }
         catch (Exception e) {
-            System.out.println("No car found for the id: " + id);
             return null;
         }
     }
 
     @PostMapping(path="")
     public ResponseEntity<List<CarDto>> createCars(@RequestBody List<CarDto> carDtoList) {
+        log.debug("Request to create new cars");
         List<CarDto> savedCars = carService.createCars(carDtoList, weightService.getRankWeights());
         return new ResponseEntity<>(savedCars, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path="")
     public ResponseEntity<String> deleteAllCars() {
-        System.out.println("Received all cars delete request");
+        log.debug("Request to delete all cars");
         carService.deleteAllCars();
         return ResponseEntity.ok("Deleted all cars!");
     }
 
     @DeleteMapping(path="/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
-        System.out.println("Received car delete request for id: " + id);
+        log.debug("Request to delete car with id: " + id);
         carService.deleteCarById(id);
         return ResponseEntity.ok("Deleted car with id: " + id);
     }

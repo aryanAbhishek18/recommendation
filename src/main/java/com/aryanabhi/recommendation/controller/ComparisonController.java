@@ -3,6 +3,7 @@ package com.aryanabhi.recommendation.controller;
 import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
 import com.aryanabhi.recommendation.service.ComparisonService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.aryanabhi.recommendation.Constants.CAR_COMPARE_API;
 
+@Log4j2
 @RestController
 @RequestMapping(path=CAR_COMPARE_API)
 public class ComparisonController {
@@ -29,9 +31,8 @@ public class ComparisonController {
      */
     @GetMapping(path="")
     public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
-        System.out.println("Received car compare request for: " + req.getIds());
+        log.debug("Request to fetch comparisons for cars with ids: {}", req.getIds());
         ComparisonResponseDto comparison = comparisonService.compareCars(req);
-        System.out.println("Recommendations fetched: " + comparison);
         return new ResponseEntity<>(comparison, HttpStatus.OK);
     }
 }

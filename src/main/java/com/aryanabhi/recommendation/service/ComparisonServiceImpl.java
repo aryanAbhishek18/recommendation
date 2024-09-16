@@ -4,6 +4,7 @@ import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
 import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.entity.Car;
 import com.aryanabhi.recommendation.repository.CarRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Log4j2
 @Service
 public class ComparisonServiceImpl implements ComparisonService {
 
@@ -24,6 +26,8 @@ public class ComparisonServiceImpl implements ComparisonService {
 
     @Override
     public ComparisonResponseDto compareCars(ComparisonRequestDto comparisonRequestDto) {
+        log.debug("Generating feature and specification comparisons for cars with ids: {} ...",
+                comparisonRequestDto.getIds());
         List<Car> carsToBeCompared = new ArrayList<>();
 
         List<String> names = new ArrayList<>();
@@ -83,6 +87,7 @@ public class ComparisonServiceImpl implements ComparisonService {
         }
 
         if(comparisonRequestDto.getHideSimilarities() != null && comparisonRequestDto.getHideSimilarities()) {
+            log.debug("Generated comparisons with similarities hidden");
             return ComparisonResponseDto.builder()
                     .ids(comparisonRequestDto.getIds())
                     .names(names)
@@ -98,6 +103,7 @@ public class ComparisonServiceImpl implements ComparisonService {
                     .build();
         }
 
+        log.debug("Generated comparisons with similarities not hidden");
         return ComparisonResponseDto.builder()
                 .ids(comparisonRequestDto.getIds())
                 .names(names)

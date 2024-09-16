@@ -2,10 +2,12 @@ package com.aryanabhi.recommendation.utility;
 
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.dto.WeightDto;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Log4j2
 @Component
 public class ScoreUtility {
 
@@ -17,7 +19,7 @@ public class ScoreUtility {
      * @return score of the provided car according to the weight thresholds
      */
     public Double calculateScore(CarDto carDto, WeightDto weightDto) {
-
+        log.debug("Calculating score for {}...", carDto.getName());
         Double yearWeightage = carDto.getYear() * weightDto.getYear();
         Double seatingWeightage = carDto.getSeating() * weightDto.getSeating();
         Double hpWeightage = carDto.getHorsepower() * weightDto.getHorsepower();
@@ -50,6 +52,8 @@ public class ScoreUtility {
      * @return a max of specified number of most recommended cars
      */
     public List<CarDto> findMostRecommendedForScore(Long id, Double score, List<CarDto> carDtoList, int limit) {
+        log.debug("Finding max of {} recommended cars using the scoring algorithm for input score: {}...",
+                limit, score);
         List<CarDto> mostRecommendedCars = new ArrayList<>(carDtoList);
         Collections.sort(mostRecommendedCars, (CarDto car1, CarDto car2) -> {
             Double absDiff1 = Math.abs(score - car1.getScore());

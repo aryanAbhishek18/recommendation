@@ -2,6 +2,7 @@ package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.ComparisonService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,12 @@ public class ComparisonController {
     @GetMapping(path="")
     public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
         log.debug("Request to fetch comparisons for cars with ids: {}", req.getIds());
-        ComparisonResponseDto comparison = comparisonService.compareCars(req);
-        return new ResponseEntity<>(comparison, HttpStatus.OK);
+        try {
+            ComparisonResponseDto comparison = comparisonService.compareCars(req);
+            return new ResponseEntity<>(comparison, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            log.debug(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.CarService;
 import com.aryanabhi.recommendation.service.WeightService;
 import lombok.extern.log4j.Log4j2;
@@ -59,9 +60,9 @@ public class CarController {
         try {
             CarDto fetchedCar = carService.getCar(id);
             return ResponseEntity.ok(fetchedCar);
-        }
-        catch (Exception e) {
-            return null;
+        } catch (ResourceNotFoundException e) {
+            log.debug(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -82,7 +83,12 @@ public class CarController {
     @DeleteMapping(path="/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
         log.debug("Request to delete car with id: " + id);
-        carService.deleteCarById(id);
-        return ResponseEntity.ok("Deleted car with id: " + id);
+        try {
+            carService.deleteCarById(id);
+            return ResponseEntity.ok("Deleted car with id: " + id);
+        } catch (ResourceNotFoundException e) {
+            log.debug(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }

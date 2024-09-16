@@ -2,6 +2,7 @@ package com.aryanabhi.recommendation.service;
 
 import com.aryanabhi.recommendation.dto.WeightDto;
 import com.aryanabhi.recommendation.entity.Weight;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.repository.WeightRepository;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -63,10 +64,10 @@ public class WeightServiceImpl implements WeightService {
     }
 
     @Override
-    public WeightDto getRankWeightByType(String type) {
+    public WeightDto getRankWeightByType(String type) throws ResourceNotFoundException {
         log.debug("Fetching weights for type: {} ...", type);
         Optional<Weight> weight = weightRepository.findOneByType(type);
-        if(weight.isEmpty()) return null;
+        if(weight.isEmpty()) throw new ResourceNotFoundException("No weight record exists for type: " + type);
         log.debug("Fetched weights for type: {}", type);
         return modelMapper.map(weight.get(), WeightDto.class);
     }

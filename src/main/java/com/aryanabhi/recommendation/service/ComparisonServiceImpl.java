@@ -3,6 +3,7 @@ package com.aryanabhi.recommendation.service;
 import com.aryanabhi.recommendation.dto.ComparisonResponseDto;
 import com.aryanabhi.recommendation.dto.ComparisonRequestDto;
 import com.aryanabhi.recommendation.entity.Car;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.repository.CarRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,8 @@ public class ComparisonServiceImpl implements ComparisonService {
     }
 
     @Override
-    public ComparisonResponseDto compareCars(ComparisonRequestDto comparisonRequestDto) {
+    public ComparisonResponseDto compareCars(ComparisonRequestDto comparisonRequestDto)
+            throws ResourceNotFoundException {
         log.debug("Generating feature and specification comparisons for cars with ids: {} ...",
                 comparisonRequestDto.getIds());
         List<Car> carsToBeCompared = new ArrayList<>();
@@ -53,7 +55,8 @@ public class ComparisonServiceImpl implements ComparisonService {
 
 
         for(Long id: comparisonRequestDto.getIds()) {
-            Car c = carRepository.getReferenceById(id);
+            Car c = carRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
             if(c != null) carsToBeCompared.add(c);
 
             names.add(c.getName());

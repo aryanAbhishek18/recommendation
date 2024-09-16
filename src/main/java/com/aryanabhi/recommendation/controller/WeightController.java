@@ -1,6 +1,7 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.WeightDto;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.WeightService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +46,13 @@ public class WeightController {
     @GetMapping(path = "/{type}")
     ResponseEntity<WeightDto> getWeightByType(@PathVariable String type) {
         log.debug("Request to fetch weights with type: {}", type);
-        WeightDto fetchedWeight = weightService.getRankWeightByType(type);
-        return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
+        try {
+            WeightDto fetchedWeight = weightService.getRankWeightByType(type);
+            return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
+        } catch(ResourceNotFoundException e) {
+            log.debug(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping(path = "")

@@ -3,6 +3,7 @@ package com.aryanabhi.recommendation.service;
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.dto.WeightDto;
 import com.aryanabhi.recommendation.entity.Car;
+import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.repository.CarRepository;
 import com.aryanabhi.recommendation.utility.ScoreUtility;
 import lombok.extern.log4j.Log4j2;
@@ -38,9 +39,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public CarDto getCar(Long id) {
+    public CarDto getCar(Long id) throws ResourceNotFoundException {
         log.debug("Fetching car with id: {} ...", id);
-        Car fetchedCar = carRepository.getReferenceById(id);
+        Car fetchedCar = carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
         log.debug("Fetched car with id: {}", id);
         return modelMapper.map(fetchedCar, CarDto.class);
     }
@@ -71,8 +73,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCarById(Long id) {
+    public void deleteCarById(Long id) throws ResourceNotFoundException {
         log.debug("Deleting car with id: {} ...", id);
+        carRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
         carRepository.deleteById(id);
         log.debug("Deleted car with id: {}", id);
     }

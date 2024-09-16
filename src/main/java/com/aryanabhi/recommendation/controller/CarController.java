@@ -82,7 +82,7 @@ public class CarController {
 
     @DeleteMapping(path="/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
-        log.debug("Request to delete car with id: " + id);
+        log.debug("Request to delete car with id: {}", id);
         try {
             carService.deleteCarById(id);
             return ResponseEntity.ok("Deleted car with id: " + id);

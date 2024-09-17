@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.aryanabhi.recommendation.Constants.CAR_RECOMMENDATION_DEFAULT_LIMIT;
-
 @Log4j2
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
@@ -31,7 +29,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<CarDto> getRecommendations(Long id) throws ResourceNotFoundException {
+    public List<CarDto> getRecommendations(Long id, Integer limit) throws ResourceNotFoundException {
         log.debug("Generating recommendations for car with id: {} ...", id);
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
@@ -39,7 +37,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         if(sameTypeCars.isPresent() && sameTypeCars.get().size() > 1) {
             List<CarDto> carDtoList = sameTypeCars.get().stream().map(c -> modelMapper.map(c, CarDto.class)).toList();
             return scoreUtility.findMostRecommendedForScore(id, car.getScore(), carDtoList,
-                    CAR_RECOMMENDATION_DEFAULT_LIMIT);
+                    limit);
         }
         log.debug("No recommendations for car with id: {}", id);
         return null;

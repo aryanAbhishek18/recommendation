@@ -14,10 +14,10 @@ public class Constants {
     /**
      * RECOMMENDATIONS:
      */
-    public static final Integer CAR_RECOMMENDATION_DEFAULT_LIMIT = 10;
+    public static final int CAR_RECOMMENDATION_DEFAULT_LIMIT = 10;
 
     /**
      * PAGINATION:
      */
-    public static final Integer CAR_PAGE_SIZE = 20;
+    public static final int CAR_PAGE_SIZE = 20;
 }

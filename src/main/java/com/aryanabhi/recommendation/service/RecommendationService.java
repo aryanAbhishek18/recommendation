@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RecommendationService {
 
-    List<CarDto> getRecommendations(Long id) throws ResourceNotFoundException;
+    List<CarDto> getRecommendations(Long id, Integer limit) throws ResourceNotFoundException;
 }

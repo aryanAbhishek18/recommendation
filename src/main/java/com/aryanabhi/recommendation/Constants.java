@@ -19,5 +19,5 @@ public class Constants {
     /**
      * PAGINATION:
      */
-
+    public static final Integer CAR_PAGE_SIZE = 20;
 }

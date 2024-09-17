@@ -9,11 +9,16 @@ import com.aryanabhi.recommendation.utility.ScoreUtility;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static com.aryanabhi.recommendation.Constants.CAR_PAGE_SIZE;
 
 @Log4j2
 @Service
@@ -33,7 +38,16 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<CarDto> getAllCars() {
         log.debug("Fetching all cars...");
-        List<Car> allFetchedCars = carRepository.findAll();
+        List<Car> allFetchedCars = new ArrayList<>();
+        int pageNumber = 0, totalPages = 0;
+        do {
+            Pageable pageable = PageRequest.of(pageNumber, CAR_PAGE_SIZE);
+            Page<Car> carsPage = carRepository.findAll(pageable);
+            allFetchedCars.addAll(carsPage.getContent());
+            totalPages = carsPage.getTotalPages();
+            pageNumber++;
+        } while(pageNumber < totalPages);
+
         log.debug("Fetched a total of {} cars", allFetchedCars.size());
         return allFetchedCars.stream().map((Car c) -> modelMapper.map(c, CarDto.class)).toList();
     }

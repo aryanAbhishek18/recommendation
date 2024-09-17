@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.aryanabhi.recommendation.Constants.CAR_RANK_WEIGHT_API;
+import static com.aryanabhi.recommendation.Constants.WEIGHT_API_BASE_URL;
 
 @Log4j2
 @RestController
-@RequestMapping(path=CAR_RANK_WEIGHT_API)
+@RequestMapping(path = WEIGHT_API_BASE_URL)
 public class WeightController {
 
     WeightService weightService;
@@ -25,10 +25,7 @@ public class WeightController {
         this.weightService = weightService;
     }
 
-    /**
-     * Ranking algorithm's attribute weights endpoints:
-     */
-    @PostMapping(path = "")
+    @PostMapping
     ResponseEntity<List<WeightDto>> createWeights(@RequestBody List<WeightDto> weightDtos) {
         log.debug("Request to create weights for scoring algorithm");
         List<WeightDto> fetchedWeights =  weightService.createRankWeights(weightDtos);
@@ -36,7 +33,7 @@ public class WeightController {
         return new ResponseEntity<>(fetchedWeights, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "")
+    @GetMapping
     ResponseEntity<List<WeightDto>> getWeights() {
         log.debug("Request to fetch all weights");
         List<WeightDto> fetchedWeights = weightService.getRankWeights();
@@ -55,7 +52,7 @@ public class WeightController {
         }
     }
 
-    @DeleteMapping(path = "")
+    @DeleteMapping
     ResponseEntity<String> deleteWeights() {
         log.debug("Request to delete all weights");
         weightService.deleteRankWeights();

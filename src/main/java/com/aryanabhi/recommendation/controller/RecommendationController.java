@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static com.aryanabhi.recommendation.Constants.CAR_RECOMMEND_API;
+import static com.aryanabhi.recommendation.Constants.CAR_RECOMMENDATION_URL;
 
 @Log4j2
 @RestController
-@RequestMapping(path=CAR_RECOMMEND_API)
+@RequestMapping(path = CAR_RECOMMENDATION_URL)
 public class RecommendationController {
 
     RecommendationService recommendationService;
@@ -28,10 +28,7 @@ public class RecommendationController {
         this.recommendationService = recommendationService;
     }
 
-    /**
-     * Recommendation endpoints
-     */
-    @GetMapping(path="/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id) {
         log.debug("Request to recommend cars for id: {}", id);
         try {

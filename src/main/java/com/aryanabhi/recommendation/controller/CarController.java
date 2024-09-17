@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.aryanabhi.recommendation.Constants.CAR_API;
-import static com.aryanabhi.recommendation.Constants.HEALTH_CHECK_API;
+import static com.aryanabhi.recommendation.Constants.CAR_API_BASE_URL;
 
 @Log4j2
 @RestController
-@RequestMapping(path=CAR_API)
+@RequestMapping(path = CAR_API_BASE_URL)
 public class CarController {
 
     CarService carService;
@@ -29,32 +28,14 @@ public class CarController {
         this.weightService = weightService;
     }
 
-    /**
-     * Custom health check endpoint:
-     * NOTE - see if inbuilt health check exists
-     */
-    @GetMapping(path=HEALTH_CHECK_API)
-    public ResponseEntity<String> checkHealth() {
-        return ResponseEntity.ok("Up and running!");
-    }
-
-
-    /**
-     * Car create, delete and fetch endpoints:
-     */
-    @GetMapping(path="")
+    @GetMapping
     public ResponseEntity<List<CarDto>> fetchAllCars() {
         log.debug("Request to fetch all cars");
-        try {
-            List<CarDto> allCars = carService.getAllCars();
-            return ResponseEntity.ok(allCars);
-        }
-        catch (Exception e) {
-            return null;
-        }
+        List<CarDto> allCars = carService.getAllCars();
+        return ResponseEntity.ok(allCars);
     }
 
-    @GetMapping(path="/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
         log.debug("Request to fetch car with id: {}", id);
         try {
@@ -66,21 +47,21 @@ public class CarController {
         }
     }
 
-    @PostMapping(path="")
+    @PostMapping
     public ResponseEntity<List<CarDto>> createCars(@RequestBody List<CarDto> carDtoList) {
         log.debug("Request to create new cars");
         List<CarDto> savedCars = carService.createCars(carDtoList, weightService.getRankWeights());
         return new ResponseEntity<>(savedCars, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path="")
+    @DeleteMapping
     public ResponseEntity<String> deleteAllCars() {
         log.debug("Request to delete all cars");
         carService.deleteAllCars();
         return ResponseEntity.ok("Deleted all cars!");
     }
 
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
         log.debug("Request to delete car with id: {}", id);
         try {

@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.aryanabhi.recommendation.Constants.CAR_COMPARE_API;
+import static com.aryanabhi.recommendation.Constants.CAR_COMPARISON_URL;
 
 @Log4j2
 @RestController
-@RequestMapping(path=CAR_COMPARE_API)
+@RequestMapping(path = CAR_COMPARISON_URL)
 public class ComparisonController {
 
     ComparisonService comparisonService;
@@ -27,10 +27,7 @@ public class ComparisonController {
         this.comparisonService = comparisonService;
     }
 
-    /**
-     * Comparison endpoints:
-     */
-    @GetMapping(path="")
+    @GetMapping
     public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
         log.debug("Request to fetch comparisons for cars with ids: {}", req.getIds());
         try {

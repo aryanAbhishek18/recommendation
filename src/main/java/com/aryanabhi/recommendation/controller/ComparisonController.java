@@ -20,7 +20,7 @@ import static com.aryanabhi.recommendation.Constants.CAR_COMPARISON_URL;
 @RequestMapping(path = CAR_COMPARISON_URL)
 public class ComparisonController {
 
-    ComparisonService comparisonService;
+    private ComparisonService comparisonService;
 
     @Autowired
     public ComparisonController(ComparisonService comparisonService) {

@@ -24,7 +24,7 @@ import static com.aryanabhi.recommendation.Constants.CAR_RECOMMENDATION_URL;
 @RequestMapping(path = CAR_RECOMMENDATION_URL)
 public class RecommendationController {
 
-    RecommendationService recommendationService;
+    private RecommendationService recommendationService;
 
     @Autowired
     public RecommendationController(RecommendationService recommendationService) {

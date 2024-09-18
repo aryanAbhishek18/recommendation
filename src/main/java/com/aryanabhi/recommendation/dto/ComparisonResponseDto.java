@@ -14,15 +14,15 @@ import lombok.Builder;
 @Setter
 @Builder
 public class ComparisonResponseDto {
-    List<Long> ids;
-    List<String> names;
-    List<String> types;
-    List<String> companies;
-    List<Integer> years;
-    List<Integer> seatings;
-    List<Boolean> automaticAvailibility;
-    List<Double> horsepowers;
-    List<Double> mileages;
-    List<Double> prices;
-    List<Double> scores;
+    private List<Long> ids;
+    private List<String> names;
+    private List<String> types;
+    private List<String> companies;
+    private List<Integer> years;
+    private List<Integer> seatings;
+    private List<Boolean> automaticAvailibility;
+    private List<Double> horsepowers;
+    private List<Double> mileages;
+    private List<Double> prices;
+    private List<Double> scores;
 }

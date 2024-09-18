@@ -26,9 +26,9 @@ import static com.aryanabhi.recommendation.Constants.CAR_PAGE_SIZE;
 @Service
 public class CarServiceImpl implements CarService {
 
-    CarRepository carRepository;
-    ModelMapper modelMapper;
-    ScoreUtility scoreUtility;
+    private CarRepository carRepository;
+    private ModelMapper modelMapper;
+    private ScoreUtility scoreUtility;
 
     @Autowired
     public CarServiceImpl(CarRepository carRepository, ModelMapper modelMapper, ScoreUtility scoreUtility) {

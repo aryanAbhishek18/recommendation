@@ -17,8 +17,8 @@ import java.util.Optional;
 @Service
 public class WeightServiceImpl implements WeightService {
 
-    WeightRepository weightRepository;
-    ModelMapper modelMapper;
+    private WeightRepository weightRepository;
+    private ModelMapper modelMapper;
 
     @Autowired
     WeightServiceImpl(WeightRepository weightRepository, ModelMapper modelMapper) {

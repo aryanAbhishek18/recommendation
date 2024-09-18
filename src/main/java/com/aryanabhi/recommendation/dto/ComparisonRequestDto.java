@@ -12,6 +12,6 @@ import java.util.List;
 @Builder
 public class ComparisonRequestDto {
     @Nullable
-    Boolean hideSimilarities;
-    List<Long> ids;
+    private Boolean hideSimilarities;
+    private List<Long> ids;
 }

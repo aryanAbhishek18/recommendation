@@ -19,8 +19,8 @@ import static com.aryanabhi.recommendation.Constants.CAR_API_BASE_URL;
 @RequestMapping(path = CAR_API_BASE_URL)
 public class CarController {
 
-    CarService carService;
-    WeightService weightService;
+    private CarService carService;
+    private WeightService weightService;
 
     @Autowired
     public CarController(CarService carService, WeightService weightService) {

@@ -35,7 +35,7 @@ public class RecommendationController {
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id,
                                                       @RequestParam Optional<Integer> limit) {
         log.debug("Request to recommend cars for id: {}", id);
-        int recommendationsLimit = limit.orElse(CAR_RECOMMENDATION_DEFAULT_LIMIT);
+        int recommendationsLimit = (limit != null && limit.isPresent()) ? limit.get() : CAR_RECOMMENDATION_DEFAULT_LIMIT;
         try {
             List<CarDto> recommendedCars = recommendationService.getRecommendations(id, recommendationsLimit);
             return ResponseEntity.ok(recommendedCars);

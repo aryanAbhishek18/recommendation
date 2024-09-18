@@ -65,6 +65,7 @@ public class CarController {
     public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
         log.debug("Request to delete car with id: {}", id);
         try {
+            if(carService.getCar(id) == null) throw new ResourceNotFoundException("No car exists with id: " + id);
             carService.deleteCarById(id);
             return ResponseEntity.ok("Deleted car with id: " + id);
         } catch (ResourceNotFoundException e) {

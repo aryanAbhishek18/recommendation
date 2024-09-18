@@ -12,7 +12,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
+@Builder(toBuilder = true)
 public class ComparisonResponseDto {
     private List<Long> ids;
     private List<String> names;

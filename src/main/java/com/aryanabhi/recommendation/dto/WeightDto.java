@@ -1,14 +1,12 @@
 package com.aryanabhi.recommendation.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder(toBuilder = true)
 public class WeightDto {
     private Long id;
     private String type;

@@ -9,10 +9,15 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @Configuration
 @EnableCaching
+@EnableScheduling
 public class CacheConfig {
 
     private CacheManager cacheManager;
@@ -31,5 +36,13 @@ public class CacheConfig {
         for(CarDto car: carService.getAllCars()) {
             cache.put(car.getId(), car);
         }
+    }
+
+    @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 720, initialDelay = 1)
+    public void clearCache() {
+        log.debug("Clearing all the cache...");
+        cacheManager.getCacheNames().stream().forEach((String cache) -> {
+            cacheManager.getCache(cache).clear();
+        });
     }
 }

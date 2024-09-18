@@ -9,6 +9,7 @@ import com.aryanabhi.recommendation.utility.ScoreUtility;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -95,5 +96,15 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
         carRepository.deleteById(id);
         log.debug("Deleted car with id: {}", id);
+    }
+
+    @CacheEvict(value = "carCache", allEntries = true)
+    public void clearCarCache() {
+        log.debug("Car cache cleared");
+    }
+
+    @CacheEvict(value = "carCache", key = "#id")
+    public void clearEntryFromCarCache(Long id) {
+        log.debug("Cache entry cleared for key: " + id);
     }
 }

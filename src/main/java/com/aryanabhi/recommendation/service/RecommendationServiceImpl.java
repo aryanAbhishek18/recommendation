@@ -8,6 +8,7 @@ import com.aryanabhi.recommendation.utility.ScoreUtility;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         log.debug("Generating recommendations for car with id: {} ...", id);
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
-        Optional<List<Car>> sameTypeCars = carRepository.findCarsByType(car.getType());
+        Optional<List<Car>> sameTypeCars = getCarsByType(car.getType());
         if(sameTypeCars.isPresent() && sameTypeCars.get().size() > 1) {
             List<CarDto> carDtoList = sameTypeCars.get().stream().map(c -> modelMapper.map(c, CarDto.class)).toList();
             return scoreUtility.findMostRecommendedForScore(id, car.getScore(), carDtoList,
@@ -41,5 +42,10 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
         log.debug("No recommendations for car with id: {}", id);
         return null;
+    }
+
+    @Cacheable(value = "typeCache", key = "#type")
+    private Optional<List<Car>> getCarsByType(String type) {
+        return carRepository.findCarsByType(type);
     }
 }

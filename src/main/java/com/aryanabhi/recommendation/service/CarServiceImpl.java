@@ -10,7 +10,6 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +54,6 @@ public class CarServiceImpl implements CarService {
         return allFetchedCars.stream().map((Car c) -> modelMapper.map(c, CarDto.class)).toList();
     }
 
-    @Cacheable(value = "carCache", key = "#id")
     @Override
     public CarDto getCar(Long id) throws ResourceNotFoundException {
         log.debug("Fetching car with id: {} ...", id);

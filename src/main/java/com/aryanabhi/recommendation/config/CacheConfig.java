@@ -1,7 +1,7 @@
 package com.aryanabhi.recommendation.config;
 
-import com.aryanabhi.recommendation.dto.CarDto;
-import com.aryanabhi.recommendation.service.CarService;
+import com.aryanabhi.recommendation.entity.Car;
+import com.aryanabhi.recommendation.repository.CarRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +25,19 @@ import static com.aryanabhi.recommendation.Constants.CAR_CACHE_NAME;
 public class CacheConfig {
 
     private CacheManager cacheManager;
-    private CarService carService;
+    private CarRepository carRepository;
 
     @Autowired
-    CacheConfig(CacheManager cacheManager, CarService carService) {
+    CacheConfig(CacheManager cacheManager, CarRepository carRepository) {
         this.cacheManager = cacheManager;
-        this.carService = carService;
+        this.carRepository = carRepository;
     }
 
     @PostConstruct
     public void preloadCache() {
         log.debug("Initializing application cache...");
         Cache cache = cacheManager.getCache(CAR_CACHE_NAME);
-        for(CarDto car: carService.getAllCars()) {
+        for(Car car: carRepository.findAll()) {
             cache.put(car.getId(), car);
         }
     }

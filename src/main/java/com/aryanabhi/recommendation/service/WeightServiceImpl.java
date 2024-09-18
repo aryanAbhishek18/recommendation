@@ -66,10 +66,10 @@ public class WeightServiceImpl implements WeightService {
     @Override
     public WeightDto getRankWeightByType(String type) throws ResourceNotFoundException {
         log.debug("Fetching weights for type: {} ...", type);
-        Optional<Weight> weight = weightRepository.findOneByType(type);
-        if(weight.isEmpty()) throw new ResourceNotFoundException("No weight record exists for type: " + type);
+        Weight weight = weightRepository.findOneByType(type);
+        if(weight == null) throw new ResourceNotFoundException("No weight record exists for type: " + type);
         log.debug("Fetched weights for type: {}", type);
-        return modelMapper.map(weight.get(), WeightDto.class);
+        return modelMapper.map(weight, WeightDto.class);
     }
 
     @Override

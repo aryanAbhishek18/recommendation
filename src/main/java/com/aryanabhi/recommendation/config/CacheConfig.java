@@ -14,6 +14,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.aryanabhi.recommendation.Constants.CACHE_CLEAR_INITIAL_DELAY;
+import static com.aryanabhi.recommendation.Constants.CACHE_CLEAR_INTERVAL;
+import static com.aryanabhi.recommendation.Constants.CAR_CACHE_NAME;
+
 @Log4j2
 @Configuration
 @EnableCaching
@@ -32,13 +36,13 @@ public class CacheConfig {
     @PostConstruct
     public void preloadCache() {
         log.debug("Initializing application cache...");
-        Cache cache = cacheManager.getCache("carCache");
+        Cache cache = cacheManager.getCache(CAR_CACHE_NAME);
         for(CarDto car: carService.getAllCars()) {
             cache.put(car.getId(), car);
         }
     }
 
-    @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 720, initialDelay = 1)
+    @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = CACHE_CLEAR_INTERVAL, initialDelay = CACHE_CLEAR_INITIAL_DELAY)
     public void clearCache() {
         log.debug("Clearing all the cache...");
         cacheManager.getCacheNames().stream().forEach((String cache) -> {

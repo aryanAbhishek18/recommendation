@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.aryanabhi.recommendation.Constants.CAR_CACHE_NAME;
 import static com.aryanabhi.recommendation.Constants.CAR_PAGE_SIZE;
 
 @Log4j2
@@ -98,12 +99,12 @@ public class CarServiceImpl implements CarService {
         log.debug("Deleted car with id: {}", id);
     }
 
-    @CacheEvict(value = "carCache", allEntries = true)
+    @CacheEvict(value = CAR_CACHE_NAME, allEntries = true)
     public void clearCarCache() {
         log.debug("Car cache cleared");
     }
 
-    @CacheEvict(value = "carCache", key = "#id")
+    @CacheEvict(value = CAR_CACHE_NAME, key = "#id")
     public void clearEntryFromCarCache(Long id) {
         log.debug("Cache entry cleared for key: " + id);
     }

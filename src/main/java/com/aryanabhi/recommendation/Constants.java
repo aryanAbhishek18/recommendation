@@ -20,4 +20,12 @@ public class Constants {
      * PAGINATION:
      */
     public static final int CAR_PAGE_SIZE = 20;
+
+    /**
+     * CACHING:
+     */
+    public static final String CAR_CACHE_NAME = "carCache";
+    public static final String TYPE_CACHE_NAME = "typeCache";
+    public static final long CACHE_CLEAR_INTERVAL = 720;
+    public static final long CACHE_CLEAR_INITIAL_DELAY = 1;
 }

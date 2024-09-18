@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import static com.aryanabhi.recommendation.Constants.TYPE_CACHE_NAME;
+
 @Log4j2
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
@@ -44,7 +46,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         return null;
     }
 
-    @Cacheable(value = "typeCache", key = "#type")
+    @Cacheable(value = TYPE_CACHE_NAME, key = "#type")
     private Optional<List<Car>> getCarsByType(String type) {
         return carRepository.findCarsByType(type);
     }

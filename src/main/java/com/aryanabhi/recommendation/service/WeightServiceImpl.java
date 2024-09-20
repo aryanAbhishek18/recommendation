@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service
@@ -39,7 +38,6 @@ public class WeightServiceImpl implements WeightService {
                 return null;
             }
         }
-        // check if we can .saveAll()
 
         List<Weight> savedWeights = weightRepository.findAll();
         List<WeightDto> savedWeightDtoList = new ArrayList<>();

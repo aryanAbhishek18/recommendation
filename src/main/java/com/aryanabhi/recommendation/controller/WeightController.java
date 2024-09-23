@@ -18,7 +18,7 @@ import static com.aryanabhi.recommendation.Constants.WEIGHT_API_BASE_URL;
 @RequestMapping(path = WEIGHT_API_BASE_URL)
 public class WeightController {
 
-    private WeightService weightService;
+    private final WeightService weightService;
 
     @Autowired
     WeightController(WeightService weightService) {

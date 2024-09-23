@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class ComparisonServiceImpl implements ComparisonService {
 
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     @Autowired
     ComparisonServiceImpl(CarRepository carRepository) {

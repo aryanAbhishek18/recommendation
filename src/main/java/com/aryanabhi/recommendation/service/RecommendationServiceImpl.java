@@ -16,9 +16,9 @@ import java.util.List;
 @Service
 public class RecommendationServiceImpl implements RecommendationService {
 
-    private CarRepository carRepository;
-    private ModelMapper modelMapper;
-    private ScoreUtility scoreUtility;
+    private final CarRepository carRepository;
+    private final ModelMapper modelMapper;
+    private final ScoreUtility scoreUtility;
 
     @Autowired
     RecommendationServiceImpl(CarRepository carRepository, ModelMapper modelMapper, ScoreUtility scoreUtility) {

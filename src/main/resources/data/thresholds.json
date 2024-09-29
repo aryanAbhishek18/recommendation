@@ -1,0 +1,26 @@
+[
+  {
+    "type": "SUV",
+    "year": 0.04951721,
+    "seating": 16.39344,
+    "horsepower": 0.7204611,
+    "mileage": 6.4516129,
+    "price": 0.00005168
+  },
+  {
+    "type": "HATCHBACK",
+    "year": 0.04951721,
+    "seating": 20.0,
+    "horsepower": 1.0764262,
+    "mileage": 5.0251256,
+    "price": 0.00013378
+  },
+  {
+    "type": "SEDAN",
+    "year": 0.04951721,
+    "seating": 20.0,
+    "horsepower": 0.6662225,
+    "mileage": 5.988024,
+    "price": 0.0000607
+  }
+]

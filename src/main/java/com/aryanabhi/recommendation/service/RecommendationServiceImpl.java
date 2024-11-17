@@ -2,6 +2,7 @@ package com.aryanabhi.recommendation.service;
 
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.entity.Car;
+import com.aryanabhi.recommendation.exception.InvalidInputException;
 import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.repository.CarRepository;
 import com.aryanabhi.recommendation.utility.ScoreUtility;
@@ -28,8 +29,9 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<CarDto> getRecommendations(Long id, Integer limit) throws ResourceNotFoundException {
+    public List<CarDto> getRecommendations(Long id, Integer limit) throws InvalidInputException,ResourceNotFoundException {
         log.debug("Generating recommendations for car with id: {} ...", id);
+        if(limit <= 0) throw new InvalidInputException("Limit should be positive!");
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No car exists for id: " + id));
         List<Car> sameTypeCars = carRepository.findByType(car.getType());

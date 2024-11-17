@@ -2,6 +2,7 @@ package com.aryanabhi.recommendation.services;
 
 import com.aryanabhi.recommendation.dto.CarDto;
 import com.aryanabhi.recommendation.entity.Car;
+import com.aryanabhi.recommendation.exception.InvalidInputException;
 import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.repository.CarRepository;
 import com.aryanabhi.recommendation.service.RecommendationServiceImpl;
@@ -69,7 +70,7 @@ public class RecommendationServiceImplTest {
     }
 
     @Test
-    public void getRecommendations_success() throws ResourceNotFoundException {
+    public void getRecommendations_success() throws InvalidInputException, ResourceNotFoundException {
         long id = 1L;
         when(carRepositoryMock.findById(id)).thenReturn(Optional.of(car1));
         when(carRepositoryMock.findByType(HATCHBACK)).thenReturn(carList);
@@ -111,7 +112,7 @@ public class RecommendationServiceImplTest {
     }
 
     @Test
-    public void getRecommendations_nullResponse() throws ResourceNotFoundException {
+    public void getRecommendations_nullResponse() throws InvalidInputException, ResourceNotFoundException {
         long id = 1L;
         when(carRepositoryMock.findById(id)).thenReturn(Optional.of(car1));
         when(carRepositoryMock.findByType(HATCHBACK)).thenReturn(new ArrayList<>());

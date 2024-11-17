@@ -1,6 +1,7 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
+import com.aryanabhi.recommendation.exception.InvalidInputException;
 import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.RecommendationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +55,7 @@ public class RecommendationControllerTest {
     }
 
     @Test
-    public void recommendCars_withoutLimit_success() throws ResourceNotFoundException {
+    public void recommendCars_withoutLimit_success() throws InvalidInputException, ResourceNotFoundException {
         List<CarDto> carList = new ArrayList<>(Arrays.asList(car1, car2, car4));
         when(recommendationServiceMock.getRecommendations(3L, CAR_RECOMMENDATION_DEFAULT_LIMIT)).thenReturn(carList);
 
@@ -69,7 +70,7 @@ public class RecommendationControllerTest {
     }
 
     @Test
-    public void recommendCars_withoutLimit_nullResponse() throws ResourceNotFoundException {
+    public void recommendCars_withoutLimit_nullResponse() throws InvalidInputException, ResourceNotFoundException {
         when(recommendationServiceMock.getRecommendations(5L, CAR_RECOMMENDATION_DEFAULT_LIMIT))
                 .thenThrow(new ResourceNotFoundException(EXCEPTION));
 
@@ -83,7 +84,7 @@ public class RecommendationControllerTest {
     }
 
     @Test
-    public void recommendCars_withLimit_success() throws ResourceNotFoundException {
+    public void recommendCars_withLimit_success() throws InvalidInputException, ResourceNotFoundException {
         List<CarDto> carList = new ArrayList<>(Arrays.asList(car1, car3));
         when(recommendationServiceMock.getRecommendations(4L, 2)).thenReturn(carList);
 
@@ -98,7 +99,7 @@ public class RecommendationControllerTest {
     }
 
     @Test
-    public void recommendCars_withLimit_nullResponse() throws ResourceNotFoundException {
+    public void recommendCars_withLimit_nullResponse() throws InvalidInputException, ResourceNotFoundException {
         when(recommendationServiceMock.getRecommendations(1L, 2))
                 .thenThrow(new ResourceNotFoundException(EXCEPTION));
 

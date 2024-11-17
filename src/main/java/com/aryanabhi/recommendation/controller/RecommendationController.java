@@ -1,6 +1,7 @@
 package com.aryanabhi.recommendation.controller;
 
 import com.aryanabhi.recommendation.dto.CarDto;
+import com.aryanabhi.recommendation.exception.InvalidInputException;
 import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.RecommendationService;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +36,6 @@ public class RecommendationController {
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id,
                                                       @RequestParam Optional<Integer> limit) {
         log.debug("Request to recommend cars for id: {}", id);
-        if(isLimitInvalid(limit)) return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
         int recommendationsLimit = (limit != null && limit.isPresent()) ? limit.get() : CAR_RECOMMENDATION_DEFAULT_LIMIT;
         try {
             List<CarDto> recommendedCars = recommendationService.getRecommendations(id, recommendationsLimit);
@@ -44,10 +44,9 @@ public class RecommendationController {
             log.debug(e.getMessage());
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-    }
-
-    private boolean isLimitInvalid(Optional<Integer> limit) {
-        if(limit != null && limit.isPresent() && limit.get() <= 0) return true;
-        return false;
+        catch(InvalidInputException e) {
+            log.debug(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
+        }
     }
 }

@@ -70,20 +70,6 @@ public class RecommendationControllerTest {
     }
 
     @Test
-    public void recommendCars_withoutLimit_nullResponse() throws InvalidInputException, ResourceNotFoundException {
-        when(recommendationServiceMock.getRecommendations(5L, CAR_RECOMMENDATION_DEFAULT_LIMIT))
-                .thenThrow(new ResourceNotFoundException(EXCEPTION));
-
-        ResponseEntity<List<CarDto>> response = recommendationController.recommendCars(5L, null);
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(recommendationServiceMock, times(1))
-                .getRecommendations(5L, CAR_RECOMMENDATION_DEFAULT_LIMIT);
-    }
-
-    @Test
     public void recommendCars_withLimit_success() throws InvalidInputException, ResourceNotFoundException {
         List<CarDto> carList = new ArrayList<>(Arrays.asList(car1, car3));
         when(recommendationServiceMock.getRecommendations(4L, 2)).thenReturn(carList);
@@ -96,20 +82,6 @@ public class RecommendationControllerTest {
 
         verify(recommendationServiceMock, times(1))
                 .getRecommendations(4L, 2);
-    }
-
-    @Test
-    public void recommendCars_withLimit_nullResponse() throws InvalidInputException, ResourceNotFoundException {
-        when(recommendationServiceMock.getRecommendations(1L, 2))
-                .thenThrow(new ResourceNotFoundException(EXCEPTION));
-
-        ResponseEntity<List<CarDto>> response = recommendationController.recommendCars(1L, Optional.of(2));
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(recommendationServiceMock, times(1))
-                .getRecommendations(1L, 2);
     }
 
     private CarDto buildCarDto() {

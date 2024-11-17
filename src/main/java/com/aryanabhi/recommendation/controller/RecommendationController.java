@@ -6,7 +6,6 @@ import com.aryanabhi.recommendation.exception.ResourceNotFoundException;
 import com.aryanabhi.recommendation.service.RecommendationService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,19 +33,11 @@ public class RecommendationController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<List<CarDto>> recommendCars(@PathVariable(name = "id") Long id,
-                                                      @RequestParam Optional<Integer> limit) {
+                                                      @RequestParam Optional<Integer> limit)
+            throws ResourceNotFoundException, InvalidInputException {
         log.debug("Request to recommend cars for id: {}", id);
         int recommendationsLimit = (limit != null && limit.isPresent()) ? limit.get() : CAR_RECOMMENDATION_DEFAULT_LIMIT;
-        try {
-            List<CarDto> recommendedCars = recommendationService.getRecommendations(id, recommendationsLimit);
-            return ResponseEntity.ok(recommendedCars);
-        } catch(ResourceNotFoundException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        catch(InvalidInputException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+        List<CarDto> recommendedCars = recommendationService.getRecommendations(id, recommendationsLimit);
+        return ResponseEntity.ok(recommendedCars);
     }
 }

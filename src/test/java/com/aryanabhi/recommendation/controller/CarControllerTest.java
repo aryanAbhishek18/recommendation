@@ -103,18 +103,6 @@ public class CarControllerTest {
     }
 
     @Test
-    public void fetchCarById_nullResponse() throws ResourceNotFoundException {
-        when(carServiceMock.getCar(5L)).thenThrow(new ResourceNotFoundException(EXCEPTION));
-
-        ResponseEntity<CarDto> response = carController.fetchCarById(5L);
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(carServiceMock, times(1)).getCar(5L);
-    }
-
-    @Test
     public void createCars_success() {
         when(weightServiceMock.getRankWeights()).thenReturn(weightDtoList);
         when(carServiceMock.createCars(carDtoList, weightDtoList)).thenReturn(savedCarDtoList);
@@ -150,20 +138,6 @@ public class CarControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
         verify(carServiceMock, times(1)).deleteCarById(1L);
-    }
-
-    @Test
-    public void deleteCarById_nullResponse() throws ResourceNotFoundException{
-        long id = 5L;
-        when(carServiceMock.getCar(id)).thenThrow(new ResourceNotFoundException(EXCEPTION));
-
-        ResponseEntity<String> response = carController.deleteCarById(id);
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(carServiceMock, times(1)).getCar(id);
-        verify(carServiceMock, times(0)).deleteCarById(id);
     }
 
     private CarDto buildCarDto() {

@@ -40,8 +40,6 @@ public class ComparisonControllerTest {
     private static final String HATCHBACK = "HATCHBACK";
     private static final String SANTRO = "SANTRO";
     private static final String ELANTRA = "ELANTRA";
-    private static final String EXCEPTION_OCCURRED = "EXCEPTION OCCURRED!";
-
 
     @BeforeEach
     public void setup() {
@@ -94,21 +92,6 @@ public class ComparisonControllerTest {
         assertNotNull(response.getBody());
         assertEquals(comparisonResponseDto, response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        verify(comparisonServiceMock, times(1)).compareCars(any());
-
-    }
-
-    @Test
-    public void compareCars_nullResponse() throws ResourceNotFoundException {
-        when(comparisonServiceMock.compareCars(requestWithHideSimilaritiesTrue))
-                .thenThrow(new ResourceNotFoundException(EXCEPTION_OCCURRED));
-
-        ResponseEntity<ComparisonResponseDto> response = comparisonController
-                .compareCars(requestWithHideSimilaritiesTrue);
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 
         verify(comparisonServiceMock, times(1)).compareCars(any());
 

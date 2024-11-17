@@ -28,14 +28,10 @@ public class ComparisonController {
     }
 
     @PostMapping
-    public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req) {
+    public ResponseEntity<ComparisonResponseDto> compareCars(@RequestBody ComparisonRequestDto req)
+            throws ResourceNotFoundException {
         log.debug("Request to fetch comparisons for cars with ids: {}", req.getIds());
-        try {
-            ComparisonResponseDto comparison = comparisonService.compareCars(req);
-            return new ResponseEntity<>(comparison, HttpStatus.OK);
-        } catch (ResourceNotFoundException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        ComparisonResponseDto comparison = comparisonService.compareCars(req);
+        return new ResponseEntity<>(comparison, HttpStatus.OK);
     }
 }

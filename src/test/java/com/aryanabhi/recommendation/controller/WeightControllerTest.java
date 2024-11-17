@@ -110,19 +110,6 @@ public class WeightControllerTest {
     }
 
     @Test
-    public void getWeightByType_nullResponse() throws ResourceNotFoundException {
-        when(weightServiceMock.getRankWeightByType(anyString()))
-                .thenThrow(new ResourceNotFoundException(EXCEPTION_OCCURRED));
-
-        ResponseEntity<WeightDto> response = weightController.getWeightByType(RANDOM_TYPE);
-
-        assertNull(response.getBody());
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-
-        verify(weightServiceMock, times(1)).getRankWeightByType(RANDOM_TYPE);
-    }
-
-    @Test
     public void deleteWeights_success() {
         ResponseEntity<String> response = weightController.deleteWeights();
 

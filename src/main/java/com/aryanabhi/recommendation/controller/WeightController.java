@@ -41,15 +41,10 @@ public class WeightController {
     }
 
     @GetMapping(path = "/{type}")
-    ResponseEntity<WeightDto> getWeightByType(@PathVariable String type) {
+    ResponseEntity<WeightDto> getWeightByType(@PathVariable String type) throws ResourceNotFoundException {
         log.debug("Request to fetch weights with type: {}", type);
-        try {
-            WeightDto fetchedWeight = weightService.getRankWeightByType(type);
-            return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
-        } catch(ResourceNotFoundException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        WeightDto fetchedWeight = weightService.getRankWeightByType(type);
+        return new ResponseEntity<>(fetchedWeight, HttpStatus.OK);
     }
 
     @DeleteMapping

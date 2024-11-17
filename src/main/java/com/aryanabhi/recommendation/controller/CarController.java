@@ -36,15 +36,10 @@ public class CarController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<CarDto> fetchCarById(@PathVariable(name = "id") Long id) throws ResourceNotFoundException {
         log.debug("Request to fetch car with id: {}", id);
-        try {
-            CarDto fetchedCar = carService.getCar(id);
-            return ResponseEntity.ok(fetchedCar);
-        } catch (ResourceNotFoundException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        CarDto fetchedCar = carService.getCar(id);
+        return ResponseEntity.ok(fetchedCar);
     }
 
     @PostMapping
@@ -62,15 +57,10 @@ public class CarController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<String> deleteCarById(@PathVariable(name = "id") Long id) throws ResourceNotFoundException {
         log.debug("Request to delete car with id: {}", id);
-        try {
-            if(carService.getCar(id) == null) throw new ResourceNotFoundException("No car exists with id: " + id);
-            carService.deleteCarById(id);
-            return ResponseEntity.ok("Deleted car with id: " + id);
-        } catch (ResourceNotFoundException e) {
-            log.debug(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+        if(carService.getCar(id) == null) throw new ResourceNotFoundException("No car exists with id: " + id);
+        carService.deleteCarById(id);
+        return ResponseEntity.ok("Deleted car with id: " + id);
     }
 }
